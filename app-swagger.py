@@ -39,7 +39,7 @@ class StudentList(Resource):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM students")
         students = cursor.fetchall()
-        return students.items()
+        return students
 
     @ns.doc('create_student')
     @ns.expect(student_model)
@@ -53,7 +53,7 @@ class StudentList(Resource):
                  VALUES (?, ?, ?, ?)"""
         cursor.execute(sql, (student['firstname'], student['lastname'], student['gender'], student['age']))
         conn.commit()
-        return student.items(), 201
+        return student, 201
 
 # Single student operations
 @ns.route("/<int:id>")
@@ -69,7 +69,7 @@ class Student(Resource):
         cursor.execute("SELECT * FROM students WHERE id=?", (id,))
         student = cursor.fetchone()
         if student:
-            return student.items()
+            return student
         api.abort(404, "Student not found")
 
     @ns.doc('delete_student')
@@ -92,7 +92,7 @@ class Student(Resource):
         sql = """UPDATE students SET firstname=?, lastname=?, gender=?, age=? WHERE id=?"""
         cursor.execute(sql, (student['firstname'], student['lastname'], student['gender'], student['age'], id))
         conn.commit()
-        return student.items()
+        return student
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=False)
