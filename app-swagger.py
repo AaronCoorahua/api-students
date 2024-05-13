@@ -23,7 +23,7 @@ def db_connection():
 
 # Model definition
 student_model = api.model('Student', {
-    'id': fields.Integer(readOnly=True, description='The unique identifier of a student'),
+    'id': fields.Integer(required=True, description='The unique identifier of a student'),
     'firstname': fields.String(required=True, description='First name of the student'),
     'lastname': fields.String(required=True, description='Last name of the student'),
     'gender': fields.String(required=True, description='Gender of the student'),
