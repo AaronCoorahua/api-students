@@ -23,7 +23,6 @@ def db_connection():
 
 # Model definition
 student_model = api.model('Student', {
-    'id': fields.Integer(required=True, description='The unique identifier of a student'),
     'firstname': fields.String(required=True, description='First name of the student'),
     'lastname': fields.String(required=True, description='Last name of the student'),
     'gender': fields.String(required=True, description='Gender of the student'),
@@ -51,9 +50,9 @@ class StudentList(Resource):
         conn = db_connection()
         cursor = conn.cursor()
         student = request.json
-        sql = """INSERT INTO students (id, firstname, lastname, gender, age)
-                 VALUES (?, ?, ?, ?, ?)"""
-        cursor.execute(sql, (student['id'], student['firstname'], student['lastname'], student['gender'], student['age']))
+        sql = """INSERT INTO students (firstname, lastname, gender, age)
+                 VALUES (?, ?, ?, ?)"""
+        cursor.execute(sql, (student['firstname'], student['lastname'], student['gender'], student['age']))
         conn.commit()
         return student, 201
 
