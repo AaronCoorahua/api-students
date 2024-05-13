@@ -4,7 +4,8 @@ import sqlite3
 
 app = Flask(__name__)
 api = Api(app, version='1.0', title='Student API',
-          description='A simple Student API')
+          description='A simple Student API',
+          doc='/docs')
 
 # Namespace
 ns = api.namespace('students', description='Operations related to students')
