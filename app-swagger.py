@@ -41,7 +41,7 @@ class StudentList(Resource):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM students")
         students = cursor.fetchall()
-        return students
+        return jsonify(students)
 
     @ns.doc('create_student')
     @ns.expect(student_model)
@@ -50,12 +50,12 @@ class StudentList(Resource):
         """Create a new student"""
         conn = db_connection()
         cursor = conn.cursor()
-        student = request.json
+        student = request.form
         sql = """INSERT INTO students (firstname, lastname, gender, age)
                  VALUES (?, ?, ?, ?)"""
         cursor.execute(sql, (student['firstname'], student['lastname'], student['gender'], student['age']))
         conn.commit()
-        return student, 201
+        return jsonify(student), 201
 
 # Single student operations
 @ns.route("/<int:id>")
@@ -71,7 +71,7 @@ class Student(Resource):
         cursor.execute("SELECT * FROM students WHERE id=?", (id,))
         student = cursor.fetchone()
         if student:
-            return student
+            return jsonify(student)
         api.abort(404, "Student not found")
 
     @ns.doc('delete_student')
@@ -88,13 +88,13 @@ class Student(Resource):
     @ns.marshal_with(student_model)
     def put(self, id):
         """Update a student given its identifier"""
-        student = request.json
+        student = request.form
         conn = db_connection()
         cursor = conn.cursor()
         sql = """UPDATE students SET firstname=?, lastname=?, gender=?, age=? WHERE id=?"""
         cursor.execute(sql, (student['firstname'], student['lastname'], student['gender'], student['age'], id))
         conn.commit()
-        return student
+        return jsonify(student)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=False)
