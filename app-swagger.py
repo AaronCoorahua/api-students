@@ -10,6 +10,8 @@ api = Api(app, version='1.0', title='Student API',
 # Namespace
 ns = api.namespace('students', description='Operations related to students')
 
+
+app.config['ERROR_404_HELP'] = False
 # Database connection function
 def db_connection():
     conn = None
