@@ -41,7 +41,7 @@ class StudentList(Resource):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM students")
         students = cursor.fetchall()
-        return jsonify(students)
+        return students
 
     @ns.doc('create_student')
     @ns.expect(student_model)
