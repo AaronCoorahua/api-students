@@ -52,7 +52,7 @@ class StudentList(Resource):
         cursor = conn.cursor()
         student = request.json
         sql = """INSERT INTO students (id, firstname, lastname, gender, age)
-                 VALUES (?, ?, ?, ?)"""
+                 VALUES (?, ?, ?, ?, ?)"""
         cursor.execute(sql, (student['id'], student['firstname'], student['lastname'], student['gender'], student['age']))
         conn.commit()
         return student, 201
