@@ -56,7 +56,7 @@ class StudentList(Resource):
         return student, 201
 
 # Single student operations
-@ns.route('/<int:id>')
+@ns.route("/<int:id>")
 @ns.response(404, 'Student not found')
 @ns.param('id', 'The student identifier')
 class Student(Resource):
