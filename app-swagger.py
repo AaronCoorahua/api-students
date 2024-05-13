@@ -17,6 +17,7 @@ def db_connection():
     conn = None
     try:
         conn = sqlite3.connect('students.sqlite')
+        conn.row_factory = sqlite3.Row
     except sqlite3.error as e:
         print(e)
     return conn
@@ -53,6 +54,7 @@ class StudentList(Resource):
         sql = """INSERT INTO students (firstname, lastname, gender, age)
                  VALUES (?, ?, ?, ?)"""
         cursor.execute(sql, (student['firstname'], student['lastname'], student['gender'], student['age']))
+        print("Last row id:", cursor.lastrowid)
         conn.commit()
         return student, 201
 
